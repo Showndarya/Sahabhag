@@ -42,7 +42,7 @@ if (!mysqli_query($con,$sql))
   {
   die('Error: ' . mysqli_error($con));
   }
-echo "Successfully Submitted.";
+else header("Location:thankyou.php");
  
  //Password generation
 function random_password( $length = 8 ) {

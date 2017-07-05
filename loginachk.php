@@ -55,6 +55,7 @@ if(!empty($_REQUEST["Submit"])) {
 		echo "Try again";
 		}
   }
+  
 	echo '<table style="border-collapse: collapse;border: 1px solid black; width=100%;">';
 	echo '<caption>NGO DB Display</caption><br>';
 	echo '<tr style="border: 1px solid black;">';
@@ -79,6 +80,7 @@ if(!empty($_REQUEST["Submit"])) {
  echo'Enter NGO ID to verify:<input type="text" name="vn">';
  echo ' <input type="submit" name="submit" value="Verify">';
  echo '</div>';
+ 
  echo '<table align="center" style="border-collapse: collapse;border: 1px solid black; width=100%;">';
  echo '<caption>Volunteer DB Display</caption><br>';
 	echo '<tr style="border: 1px solid black;">';
@@ -116,10 +118,11 @@ if(!empty($_REQUEST["Submit"])) {
      echo "<td style='padding: 15px;border: 1px solid black;width=30%;'>{$row['Skills']}</td>";
      echo '</tr>';
     }
+ 
      if (isset($_REQUEST['logout']))
 	{
 		 unset($username);  
-         header("Location: volpage.php");
+         header("Location: logina.php");
       }
       if (isset($_REQUEST['submit']))
 	{
@@ -139,7 +142,13 @@ $contact=$row['Contact'];
 $email=$row['Email'];
 $des=$row['Description']; 
  
-$sql=mysqli_query($con,"INSERT INTO NgoStep2 (NN1,Name,Contact,Email,Description) VALUES ('$ssn','$name','$contact','$email','$des')") or die(mysql_error());
+$sql="INSERT INTO NgoStep2 (NN1,Name,Contact,Email,Description) VALUES ('$ssn','$name','$contact','$email','$des')";
+if (!mysqli_query($con,$sql))
+		  {
+		  die('Error: ' . mysqli_error($con));
+		  }
+else echo "Ngo Verified.";
+
 
 function random_password( $length = 8 ) {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
@@ -148,15 +157,14 @@ function random_password( $length = 8 ) {
 }
 $my_password = random_password();
 
-if(isset($_POST['submit'])){
- /*   $to = $email; // this is your Email address
+ /*if(isset($_POST['submit'])){
+   $to = $email; // this is your Email address
     $from = "showndarya.m@somaiya.edu"; // this is the sender's Email address
     $subject = "Login Credentials";
     $message = "We would like to inform you that your registeration has been validated.Here goes your login credentials :\n\nUsername:" .$name ."\nPassword: " . $my_password . " \n\nPlease login and complete the registeration." ;
     $headers = "From:" . $from;
-    mail($to,$subject,$message,$headers);*/
-    echo "Ngo Verified!";
-    }
+    mail($to,$subject,$message,$headers);
+    }*/
 $query = "SELECT * FROM NgoStep2 WHERE NN1='$ssn'";
 $result = mysqli_query($con,$query);
 if($result === FALSE) { 
